@@ -1,5 +1,5 @@
-[submodule "include/remoteApi"]
-	path = include/remoteApi
+[submodule "include/CopellaRobotics/remoteApi"]
+	path = include/CopellaRobotics/remoteApi
 	url = https://github.com/CoppeliaRobotics/remoteApi.git
 [submodule "include/CopellaRobotics/include"]
 	path = include/CopellaRobotics/include
