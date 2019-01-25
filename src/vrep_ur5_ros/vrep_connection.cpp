@@ -42,7 +42,8 @@ void VrepConnection::Close()
 
 void VrepConnection::SetJointTargetPosition(int jointId, float value)
 {
-  simxSetJointTargetPosition(clientId_, joint_handles_[jointId], value, simx_opmode_oneshot);
+  int returnCode = simxSetJointTargetPosition(clientId_, joint_handles_[jointId], value, simx_opmode_oneshot);
+  //std::cout << "Return code from setting joint " << jointId << " to value " << value << " was " << returnCode;
 }
 
 float VrepConnection::GetJointPosition(int jointId)
