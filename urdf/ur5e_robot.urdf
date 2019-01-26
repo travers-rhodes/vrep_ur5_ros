@@ -448,7 +448,7 @@
   </link>
   <!-- camera color joints and links -->
   <joint name="camera_color_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="0 0.015 0"/>
+    <origin rpy="0 0 0" xyz="0 0.0325 0.0125"/>
     <parent link="camera_link"/>
     <child link="camera_color_frame"/>
   </joint>

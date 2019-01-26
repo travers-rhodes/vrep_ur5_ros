@@ -447,7 +447,7 @@ Copied and modified from https://github.com/dniewinski/universal_robot
     <xacro:ur_arm_gazebo prefix="${prefix}" />
 
     <!-- realsense camera --> 
-    <xacro:include filename="$(find vrep_ur5_ros)/models/_d435.urdf.xacro" />
+    <xacro:include filename="$(find vrep_ur5_ros)/urdf/_d435.urdf.xacro" />
   
     <!-- see http://wiki.ros.org/xacro for an explanation of the syntax of starred parameter passing -->
     <xacro:sensor_d435 parent="${prefix}camera_holder">

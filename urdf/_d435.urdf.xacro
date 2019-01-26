@@ -73,7 +73,7 @@ copied and modified from https://github.com/intel-ros/realsense
 
     <!-- camera color joints and links -->
     <joint name="camera_color_joint" type="fixed">
-      <origin xyz="0 ${d435_cam_depth_to_color_offset} 0" rpy="0 0 0" />
+      <origin xyz="0 ${d435_cam_depth_to_color_offset + d435_cam_depth_py} ${d435_cam_depth_pz}" rpy="0 0 0" />
       <parent link="camera_link" />
       <child link="camera_color_frame" />
     </joint>

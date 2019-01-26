@@ -2,7 +2,7 @@
 <robot xmlns:xacro="http://ros.org/wiki/xacro"
        name="ur5e" >
   <!-- ur5e -->
-  <xacro:include filename="$(find vrep_ur5_ros)/models/ur5e.urdf.xacro" />
+  <xacro:include filename="$(find vrep_ur5_ros)/urdf/ur5e.urdf.xacro" />
   
   <!-- arm -->
   <xacro:ur5e_robot prefix="" joint_limited="false"/>
