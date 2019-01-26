@@ -1,4 +1,7 @@
 <?xml version="1.0"?>
+<!--
+Copied and modified from https://github.com/dniewinski/universal_robot
+-->
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
   <xacro:include filename="$(find ur_e_description)/urdf/ur.transmission.xacro" />
@@ -444,14 +447,12 @@
     <xacro:ur_arm_gazebo prefix="${prefix}" />
 
     <!-- realsense camera --> 
-    <xacro:include filename="$(find vrep_ur5_ros)/urdf/_d435.urdf.xacro" />
+    <xacro:include filename="$(find vrep_ur5_ros)/models/_d435.urdf.xacro" />
   
     <!-- see http://wiki.ros.org/xacro for an explanation of the syntax of starred parameter passing -->
     <xacro:sensor_d435 parent="${prefix}camera_holder">
       <origin xyz="0 0.02 -0.049" rpy="0 ${-pi/2 - 0.6106} ${-pi/2}"/>
     </xacro:sensor_d435>
-
-
 
   </xacro:macro>
 </robot>

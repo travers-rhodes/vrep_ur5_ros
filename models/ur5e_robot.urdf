@@ -421,17 +421,11 @@
   <joint name="camera_joint" type="fixed">
     <origin rpy="0 -2.18139632679 -1.57079632679" xyz="0 0.02 -0.049"/>
     <parent link="camera_holder"/>
-    <child link="camera_bottom_screw_frame"/>
-  </joint>
-  <link name="camera_bottom_screw_frame"/>
-  <joint name="camera_link_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="0 0.0175 0.0125"/>
-    <parent link="camera_bottom_screw_frame"/>
     <child link="camera_link"/>
   </joint>
   <link name="camera_link">
     <visual>
-      <origin rpy="1.57079632679 0 1.57079632679" xyz="0.0149 -0.0175 0"/>
+      <origin rpy="1.57079632679 0 1.57079632679" xyz="0.0149 0.0 0.0125"/>
       <geometry>
         <!-- <box size="${d435_cam_width} ${d435_cam_height} ${d435_cam_depth}"/> -->
         <mesh filename="package://realsense2_camera/meshes/d435.dae"/>
@@ -440,7 +434,7 @@
       <material name="aluminum"/>
     </visual>
     <collision>
-      <origin rpy="0 0 0" xyz="0 -0.0175 0"/>
+      <origin rpy="0 0 0" xyz="0 0.0 0.0125"/>
       <geometry>
         <box size="0.02505 0.09 0.025"/>
       </geometry>
@@ -452,49 +446,10 @@
       <inertia ixx="0.003881243" ixy="0.0" ixz="0.0" iyy="0.000498940" iyz="0.0" izz="0.003879257"/>
     </inertial>
   </link>
-  <!-- camera depth joints and links -->
-  <joint name="camera_depth_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="0 0 0"/>
-    <parent link="camera_link"/>
-    <child link="camera_depth_frame"/>
-  </joint>
-  <link name="camera_depth_frame"/>
-  <joint name="camera_depth_optical_joint" type="fixed">
-    <origin rpy="-1.57079632679 0 -1.57079632679" xyz="0 0 0"/>
-    <parent link="camera_depth_frame"/>
-    <child link="camera_depth_optical_frame"/>
-  </joint>
-  <link name="camera_depth_optical_frame"/>
-  <!-- camera left IR joints and links -->
-  <joint name="camera_left_ir_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="0 0.0 0"/>
-    <parent link="camera_depth_frame"/>
-    <child link="camera_left_ir_frame"/>
-  </joint>
-  <link name="camera_left_ir_frame"/>
-  <joint name="camera_left_ir_optical_joint" type="fixed">
-    <origin rpy="-1.57079632679 0 -1.57079632679" xyz="0 0 0"/>
-    <parent link="camera_left_ir_frame"/>
-    <child link="camera_left_ir_optical_frame"/>
-  </joint>
-  <link name="camera_left_ir_optical_frame"/>
-  <!-- camera right IR joints and links -->
-  <joint name="camera_right_ir_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="0 -0.05 0"/>
-    <parent link="camera_depth_frame"/>
-    <child link="camera_right_ir_frame"/>
-  </joint>
-  <link name="camera_right_ir_frame"/>
-  <joint name="camera_right_ir_optical_joint" type="fixed">
-    <origin rpy="-1.57079632679 0 -1.57079632679" xyz="0 0 0"/>
-    <parent link="camera_right_ir_frame"/>
-    <child link="camera_right_ir_optical_frame"/>
-  </joint>
-  <link name="camera_right_ir_optical_frame"/>
   <!-- camera color joints and links -->
   <joint name="camera_color_joint" type="fixed">
     <origin rpy="0 0 0" xyz="0 0.015 0"/>
-    <parent link="camera_depth_frame"/>
+    <parent link="camera_link"/>
     <child link="camera_color_frame"/>
   </joint>
   <link name="camera_color_frame"/>
