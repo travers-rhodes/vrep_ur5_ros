@@ -3,7 +3,7 @@
 #include <hardware_interface/robot_hw.h>
 #include "vrep_ur5_ros/vrep_connection.h"
 
-#define NUMBER_OF_JOINTS 6
+#define NUMBER_OF_JOINTS 8
 
 class VrepUR5HardwareInterface : public hardware_interface::RobotHW
 {

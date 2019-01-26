@@ -14,10 +14,16 @@ int main(int argc, char** argv)
   VrepUR5HardwareInterface robot;
   controller_manager::ControllerManager controller_manager(&robot, nh);
 
-  int loop_hz = 10;
+  int loop_hz = 100;
   ros::Duration update_freq = ros::Duration(1.0/loop_hz);
   ros::Time previous = ros::Time::now();
   ros::Time current = ros::Time::now();
+
+  while (ros::Time::now().toSec() == 0)
+  {
+    std::cout << "waiting for clock to publish";
+    update_freq.sleep();
+  }
 
   while (ros::ok())
   {

@@ -13,3 +13,10 @@ arm_controller:
     - wrist_1_joint
     - wrist_2_joint
     - wrist_3_joint
+
+# Position Controllers ---------------------------------------
+gripper_controller:
+  type: position_controllers/JointTrajectoryController
+  joints: 
+    - finger_l_joint
+    - finger_r_joint

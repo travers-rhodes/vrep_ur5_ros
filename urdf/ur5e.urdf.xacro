@@ -400,7 +400,7 @@ Copied and modified from https://github.com/dniewinski/universal_robot
       </xacro:cylinder_inertial>
     </link>
     
-    <joint name="${prefix}finger_l_fixed_joint" type="prismatic">
+    <joint name="${prefix}finger_l_joint" type="prismatic">
       <parent link="${prefix}hand_link" />
       <child link = "${prefix}finger_l_link" />
       <origin xyz="0.0 ${0.046 + 0.015} -0.0059" rpy="0.0 0.0 ${-pi/2.0}" />
@@ -409,7 +409,7 @@ Copied and modified from https://github.com/dniewinski/universal_robot
       <axis xyz="0 0 1"/>
     </joint>
 
-    <joint name="${prefix}finger_r_fixed_joint" type="prismatic">
+    <joint name="${prefix}finger_r_joint" type="prismatic">
       <parent link="${prefix}hand_link" />
       <child link = "${prefix}finger_r_link" />
       <origin xyz="0.0 ${0.046 + 0.015} 0.0059" rpy="${pi} 0.0 ${-pi/2.0}" />
