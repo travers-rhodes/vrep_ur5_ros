@@ -258,6 +258,12 @@
     <!-- we fudge the length to make the two line up (probably because origin of hand is in rando place -->
     <origin rpy="1.57079632679 0.0 1.57079632679" xyz="0.0 0.0 0.093"/>
   </joint>
+  <link name="grasp_point_fixed"/>
+  <joint name="grasp_point_fixed_joint" type="fixed">
+    <parent link="hand_link"/>
+    <child link="grasp_point_fixed"/>
+    <origin rpy="0.0 0.0 -1.57079632679" xyz="0.0 0.061 0.0"/>
+  </joint>
   <link name="finger_l_link">
     <visual>
       <geometry>
@@ -299,14 +305,14 @@
     </inertial>
   </link>
   <joint name="finger_l_fixed_joint" type="fixed">
-    <parent link="hand_link"/>
+    <parent link="grasp_point_fixed"/>
     <child link="finger_l_link"/>
-    <origin rpy="0.0 0.0 -1.57079632679" xyz="0.0 0.061 0.0"/>
+    <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
   </joint>
   <joint name="finger_r_fixed_joint" type="fixed">
-    <parent link="hand_link"/>
+    <parent link="grasp_point_fixed"/>
     <child link="finger_r_link"/>
-    <origin rpy="3.14159265359 0.0 -1.57079632679" xyz="0.0 0.061 0.0"/>
+    <origin rpy="3.14159265359 0.0 0.0" xyz="0.0 0.0 0.0"/>
   </joint>
   <joint name="ee_fixed_joint" type="fixed">
     <parent link="wrist_3_link"/>
@@ -342,9 +348,9 @@
     </inertial>
   </link>
   <joint name="camera_holder_fixed_joint" type="fixed">
-    <parent link="wrist_3_link"/>
+    <parent link="hand_link"/>
     <child link="camera_holder"/>
-    <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
+    <origin rpy="-1.57079632679 -1.57079632679 0.0" xyz="0.0315 -0.001 0.0"/>
   </joint>
   <transmission name="shoulder_pan_trans">
     <type>transmission_interface/SimpleTransmission</type>
@@ -400,4 +406,133 @@
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
+  <gazebo reference="shoulder_link">
+    <selfCollide>true</selfCollide>
+  </gazebo>
+  <gazebo reference="upper_arm_link">
+    <selfCollide>true</selfCollide>
+  </gazebo>
+  <gazebo reference="forearm_link">
+    <selfCollide>true</selfCollide>
+  </gazebo>
+  <gazebo reference="wrist_1_link">
+    <selfCollide>true</selfCollide>
+  </gazebo>
+  <gazebo reference="wrist_3_link">
+    <selfCollide>true</selfCollide>
+  </gazebo>
+  <gazebo reference="wrist_2_link">
+    <selfCollide>true</selfCollide>
+  </gazebo>
+  <gazebo reference="ee_link">
+    <selfCollide>true</selfCollide>
+  </gazebo>
+  <!-- ROS base_link to UR 'Base' Coordinates transform -->
+  <link name="base"/>
+  <joint name="base_link-base_fixed_joint" type="fixed">
+    <!-- NOTE: this rotation is only needed as long as base_link itself is
+                 not corrected wrt the real robot (ie: rotated over 180
+                 degrees)
+      -->
+    <origin rpy="0 0 -3.14159265359" xyz="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="base"/>
+  </joint>
+  <!-- Frame coincident with all-zeros TCP on UR controller -->
+  <link name="tool0"/>
+  <joint name="wrist_3_link-tool0_fixed_joint" type="fixed">
+    <origin rpy="-1.57079632679 0 0" xyz="0 0.1 0"/>
+    <parent link="wrist_3_link"/>
+    <child link="tool0"/>
+  </joint>
+  <material name="aluminum">
+    <color rgba="0.5 0.5 0.5 1"/>
+  </material>
+  <!-- camera body, with origin at bottom screw mount -->
+  <joint name="camera_joint" type="fixed">
+    <origin rpy="0 -2.18139632679 -1.57079632679" xyz="0 0.02 -0.049"/>
+    <parent link="camera_holder"/>
+    <child link="camera_bottom_screw_frame"/>
+  </joint>
+  <link name="camera_bottom_screw_frame"/>
+  <joint name="camera_link_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0.0175 0.0125"/>
+    <parent link="camera_bottom_screw_frame"/>
+    <child link="camera_link"/>
+  </joint>
+  <link name="camera_link">
+    <visual>
+      <origin rpy="1.57079632679 0 1.57079632679" xyz="0.0149 -0.0175 0"/>
+      <geometry>
+        <!-- <box size="${d435_cam_width} ${d435_cam_height} ${d435_cam_depth}"/> -->
+        <mesh filename="package://realsense2_camera/meshes/d435.dae"/>
+        <!--<mesh filename="package://realsense2_camera/meshes/d435/d435.dae" />-->
+      </geometry>
+      <material name="aluminum"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 -0.0175 0"/>
+      <geometry>
+        <box size="0.02505 0.09 0.025"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <!-- The following are not reliable values, and should not be used for modeling -->
+      <mass value="0.564"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.003881243" ixy="0.0" ixz="0.0" iyy="0.000498940" iyz="0.0" izz="0.003879257"/>
+    </inertial>
+  </link>
+  <!-- camera depth joints and links -->
+  <joint name="camera_depth_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <parent link="camera_link"/>
+    <child link="camera_depth_frame"/>
+  </joint>
+  <link name="camera_depth_frame"/>
+  <joint name="camera_depth_optical_joint" type="fixed">
+    <origin rpy="-1.57079632679 0 -1.57079632679" xyz="0 0 0"/>
+    <parent link="camera_depth_frame"/>
+    <child link="camera_depth_optical_frame"/>
+  </joint>
+  <link name="camera_depth_optical_frame"/>
+  <!-- camera left IR joints and links -->
+  <joint name="camera_left_ir_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0.0 0"/>
+    <parent link="camera_depth_frame"/>
+    <child link="camera_left_ir_frame"/>
+  </joint>
+  <link name="camera_left_ir_frame"/>
+  <joint name="camera_left_ir_optical_joint" type="fixed">
+    <origin rpy="-1.57079632679 0 -1.57079632679" xyz="0 0 0"/>
+    <parent link="camera_left_ir_frame"/>
+    <child link="camera_left_ir_optical_frame"/>
+  </joint>
+  <link name="camera_left_ir_optical_frame"/>
+  <!-- camera right IR joints and links -->
+  <joint name="camera_right_ir_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 -0.05 0"/>
+    <parent link="camera_depth_frame"/>
+    <child link="camera_right_ir_frame"/>
+  </joint>
+  <link name="camera_right_ir_frame"/>
+  <joint name="camera_right_ir_optical_joint" type="fixed">
+    <origin rpy="-1.57079632679 0 -1.57079632679" xyz="0 0 0"/>
+    <parent link="camera_right_ir_frame"/>
+    <child link="camera_right_ir_optical_frame"/>
+  </joint>
+  <link name="camera_right_ir_optical_frame"/>
+  <!-- camera color joints and links -->
+  <joint name="camera_color_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0.015 0"/>
+    <parent link="camera_depth_frame"/>
+    <child link="camera_color_frame"/>
+  </joint>
+  <link name="camera_color_frame"/>
+  <joint name="camera_color_optical_joint" type="fixed">
+    <origin rpy="-1.57079632679 0 -1.57079632679" xyz="0 0 0"/>
+    <parent link="camera_color_frame"/>
+    <child link="camera_color_optical_frame"/>
+  </joint>
+  <link name="camera_color_optical_frame"/>
 </robot>
