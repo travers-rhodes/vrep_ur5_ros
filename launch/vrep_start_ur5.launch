@@ -1,0 +1,20 @@
+<launch>
+  <param name="use_sim_time" value="true" />
+  
+  <!-- Load the URDF, SRDF and other .yaml configuration files on the param server -->
+  <include file="$(find ur5_e_moveit_config)/launch/planning_context.launch">
+    <arg name="load_robot_description" value="true"/>
+  </include>
+
+  <!-- launch V-REP -->
+  <node name="launch_vrep" pkg="vrep_ur5_ros" type="run_vrep.sh" args="$(find vrep_ur5_ros)/models/UR5_scene_simpler.ttt" output="screen"/>
+
+  <!-- connect to or simulate a robot -->
+  <node name="vrep_hardware_interface" pkg="vrep_ur5_ros" type="vrep_ur5_hardware_interface_node" output="screen"/>
+
+  <!-- Start controllers https://github.com/arennuit/vrep_ros_control_example/blob/master/launch/vrep.launch -->
+  <rosparam file="$(find vrep_ur5_ros)/config/controllers.yaml" command="load"/> 
+  <node name="controller_manager_spawner" pkg="controller_manager" type="spawner" args="joint_state_controller arm_controller gripper_controller" />
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="tf_publisher"/>
+  
+</launch>

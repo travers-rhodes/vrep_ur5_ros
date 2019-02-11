@@ -1,0 +1,32 @@
+<launch>
+  <param name="use_sim_time" value="true" />
+
+  <!-- connect to or simulate a robot -->
+  <node name="vrep_hardware_interface" pkg="vrep_ur5_ros" type="vrep_ur5_hardware_interface_node" output="screen"/>
+
+  <!-- Start controllers https://github.com/arennuit/vrep_ros_control_example/blob/master/launch/vrep.launch -->
+  <rosparam file="$(find vrep_ur5_ros)/config/controllers.yaml" command="load"/> 
+
+  <node name="controller_manager_spawner" pkg="controller_manager" type="spawner" args="joint_state_controller arm_controller gripper_controller" />
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="tf_publisher"/>
+
+  <!-- Load the URDF, SRDF and other .yaml configuration files on the param server -->
+  <include file="$(find ur5_e_moveit_config)/launch/planning_context.launch">
+    <arg name="load_robot_description" value="true"/>
+  </include>
+
+  <!-- Remap follow_joint_trajectory -->
+  <remap from="/follow_joint_trajectory" to="/arm_controller/follow_joint_trajectory"/>
+
+  <!-- Run the main MoveIt executable without trajectory execution (we do not have controllers configured by default) -->
+  <include file="$(find ur5_e_moveit_config)/launch/move_group.launch">
+    <arg name="allow_trajectory_execution" value="true"/>  
+    <arg name="info" value="true"/>
+  </include>
+
+  <!-- Run Rviz and load the default config to see the state of the move_group node -->
+  <include file="$(find ur5_e_moveit_config)/launch/moveit_rviz.launch">
+    <arg name="config" value="true"/>
+  </include>
+
+</launch>
