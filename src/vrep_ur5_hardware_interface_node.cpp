@@ -11,7 +11,19 @@ int main(int argc, char** argv)
   ros::AsyncSpinner spinner(1);
   spinner.start();
 
-  VrepUR5HardwareInterface robot;
+  VrepConnection vrep_connection;
+
+  std::vector<std::string> vrep_joint_names = {"shoulder_pan_joint",
+                                "shoulder_lift_joint",
+                                "elbow_joint",
+                                "wrist_1_joint",
+                                "wrist_2_joint",
+                                "wrist_3_joint",
+                                "finger_l_joint",
+                                "finger_r_joint"};
+
+  vrep_connection.Initialize(vrep_joint_names);
+  VrepUR5HardwareInterface robot(&vrep_connection);
   controller_manager::ControllerManager controller_manager(&robot, nh);
 
   int loop_hz = 100;

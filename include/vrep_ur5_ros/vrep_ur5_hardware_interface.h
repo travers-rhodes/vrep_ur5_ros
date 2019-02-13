@@ -8,11 +8,11 @@
 class VrepUR5HardwareInterface : public hardware_interface::RobotHW
 {
   public:
-    VrepUR5HardwareInterface();
+    VrepUR5HardwareInterface(VrepConnection *vrep_interface);
     void write(const ros::Time& time, const ros::Duration& period);
     void read(const ros::Time& time, const ros::Duration& period);
   private:
-    VrepConnection vrep_interface_; 
+    VrepConnection *vrep_interface_; 
     hardware_interface::JointStateInterface jnt_state_interface_;
     hardware_interface::PositionJointInterface jnt_pos_interface_;
     double cmd_[NUMBER_OF_JOINTS];
