@@ -4,3 +4,6 @@
 [submodule "include/CopellaRobotics/include"]
 	path = include/CopellaRobotics/include
 	url = https://github.com/CoppeliaRobotics/include.git
+[submodule "include/CopellaRobotics/remoteApiBindings"]
+	path = include/CopellaRobotics/remoteApiBindings
+	url = https://github.com/CoppeliaRobotics/remoteApiBindings.git
