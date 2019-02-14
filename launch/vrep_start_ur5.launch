@@ -2,9 +2,9 @@
   <param name="use_sim_time" value="true" />
   
   <!-- Load the URDF, SRDF and other .yaml configuration files on the param server -->
-  <include file="$(find ur5_e_moveit_config)/launch/planning_context.launch">
-    <arg name="load_robot_description" value="true"/>
-  </include>
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(find plating_demo)/urdf/ur5e_robot.urdf.xacro" />
+  <!-- The semantic description that corresponds to the URDF -->
+  <param name="robot_description_semantic" textfile="$(find plating_demo)/config/ur5e.srdf" />
 
   <!-- launch V-REP -->
   <node name="launch_vrep" pkg="vrep_ur5_ros" type="run_vrep.sh" args="$(find vrep_ur5_ros)/models/UR5_scene_simpler.ttt" output="screen"/>
