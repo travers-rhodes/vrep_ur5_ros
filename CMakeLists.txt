@@ -4,15 +4,6 @@ project(vrep_ur5_ros)
 ## Compile as C++11, supported in ROS Kinetic and newer
 add_compile_options(-std=c++11)
 
-## Learning how to use cmake.
-## In order to avoid needing to create our own copy of the vrep source object
-## we use the provided copy, but move it to the needed place (note that we could
-## easily instead update vrep_ur5_ros/include/CopellaRobotics/remoteApiBindings/python/python/vrep.py
-## to point to the path that this file is actually located in, but in order to persist that change
-## we'd need to point to a different git remote.
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/include/CopellaRobotics/remoteApiBindings/lib/lib/Linux/64Bit/remoteApi.so
-     DESTINATION ${CATKIN_DEVEL_PREFIX}/${PYTHON_INSTALL_DIR}/vrep)
-
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
@@ -29,6 +20,14 @@ find_package(catkin REQUIRED COMPONENTS
 ## modules and global scripts declared therein get installed
 ## See http://ros.org/doc/api/catkin/html/user_guide/setup_dot_py.html
 catkin_python_setup()
+
+## Learning how to use cmake.
+## In order to avoid needing to create our own copy of the vrep source object
+## in every package where this file is used,
+## we use the provided copy, but move it to the needed place for the library code
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/include/CopellaRobotics/remoteApiBindings/lib/lib/Linux/64Bit/remoteApi.so
+     DESTINATION ${CATKIN_DEVEL_PREFIX}/${PYTHON_INSTALL_DIR}/vrep)
+
 
 ################################################
 ## Declare ROS messages, services and actions ##
